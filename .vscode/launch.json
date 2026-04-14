@@ -5,7 +5,7 @@
             "name": "C Debug (LLDB)",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${fileDirname}/../build/${fileBasenameNoExtension}",
+            "program": "${fileDirname}/../../build/${fileBasenameNoExtension}",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

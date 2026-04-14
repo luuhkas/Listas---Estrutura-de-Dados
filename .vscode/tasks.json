@@ -4,16 +4,14 @@
         {
             "label": "build active C file",
             "type": "shell",
-            "command": "clang",
+            "command": "/bin/bash",
             "args": [
-                "${file}",
-                "-g",
-                "-o",
-                "${fileDirname}/../build/${fileBasenameNoExtension}"
+                "-c",
+                "list_dir=\"${fileDirname}/../..\"; mkdir -p \"$list_dir/build\"; shopt -s nullglob; srcs=(\"${fileDirname}\"/*.c); if [ -d \"$list_dir/base\" ]; then srcs+=(\"$list_dir\"/base/*.c); fi; includes=(\"-I${fileDirname}\"); if [ -d \"$list_dir/base\" ]; then includes+=(\"-I$list_dir/base\"); fi; clang \"${srcs[@]}\" \"${includes[@]}\" -g -o \"$list_dir/build/${fileBasenameNoExtension}\""
             ],
             "group": {
                 "kind": "build",
-                "isDefault": false
+                "isDefault": true
             },
             "problemMatcher": [
                 "$gcc"
@@ -25,33 +23,9 @@
             "command": "/bin/bash",
             "args": [
                 "-c",
-                "mkdir -p \"${fileDirname}/../build\" && clang \"${file}\" -g -o \"${fileDirname}/../build/${fileBasenameNoExtension}\" && \"${fileDirname}/../build/${fileBasenameNoExtension}\""
+                "list_dir=\"${fileDirname}/../..\"; mkdir -p \"$list_dir/build\"; shopt -s nullglob; srcs=(\"${fileDirname}\"/*.c); if [ -d \"$list_dir/base\" ]; then srcs+=(\"$list_dir\"/base/*.c); fi; includes=(\"-I${fileDirname}\"); if [ -d \"$list_dir/base\" ]; then includes+=(\"-I$list_dir/base\"); fi; clang \"${srcs[@]}\" \"${includes[@]}\" -g -o \"$list_dir/build/${fileBasenameNoExtension}\" && \"$list_dir/build/${fileBasenameNoExtension}\""
             ],
             "group": "none"
-        },
-        {
-            "type": "cppbuild",
-            "label": "C/C++: clang arquivo de build ativo",
-            "command": "/usr/bin/clang",
-            "args": [
-                "-fcolor-diagnostics",
-                "-fansi-escape-codes",
-                "-g",
-                "${file}",
-                "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
-            ],
-            "options": {
-                "cwd": "${fileDirname}"
-            },
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "detail": "Tarefa gerada pelo Depurador."
         }
     ]
 }
