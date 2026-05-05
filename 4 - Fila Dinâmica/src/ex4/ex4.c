@@ -2,48 +2,95 @@
 #include <stdlib.h>
 #include "fila_headers.h"
 
-void max_min_media(Fila *fila)
+int enqueueCircular(Fila *fila, int data)
+{
+    if (fila == NULL)
+        return 1;
+
+    Node *node = malloc(sizeof(Node));
+    if (node == NULL)
+        return 1;
+
+    node->data = data;
+
+    if (fila->inicio == NULL)
+    {
+        fila->inicio = node;
+        fila->fim = node;
+        node->next = node;
+        return 0;
+    }
+
+    node->next = fila->inicio;
+    fila->fim->next = node;
+    fila->fim = node;
+
+    return 0;
+}
+
+int furaFila(Fila *fila, int x)
+{
+    if (fila == NULL)
+        return 1;
+
+    Node *node = malloc(sizeof(Node));
+    if (node == NULL)
+        return 1;
+
+    node->data = x;
+
+    if (fila->inicio == NULL)
+    {
+        fila->inicio = node;
+        fila->fim = node;
+        node->next = node;
+        return 0;
+    }
+
+    node->next = fila->inicio;
+    fila->inicio = node;
+    fila->fim->next = fila->inicio;
+
+    return 0;
+}
+
+void imprimirFilaCircular(Fila *fila)
 {
     if (fila == NULL || fila->inicio == NULL)
-    {
-        printf("Fila vazia ou invalida\n");
         return;
-    }
 
-    int maior, menor, media, soma = 0, count = 0;
     Node *node = fila->inicio;
 
-    maior = menor = node->data;
-
-    while (node != NULL)
+    do
     {
-        if (node->data > maior)
-            maior = node->data;
-        if (node->data < menor)
-            menor = node->data;
-
-        soma += node->data;
-        count++;
+        printf("Dado: %d\n", node->data);
         node = node->next;
-    }
-
-    media = soma / count;
-
-    printf("\nO maior elemento da fila eh: %d\n", maior);
-    printf("\nO menor elemento da fila eh: %d\n", menor);
-    printf("\nA media dos elementos da fila eh: %d\n", media);
+    } while (node != fila->inicio);
 }
 
 int main(void)
 {
     Fila *fila = criarFila();
-    for (int i = 2; i < 4; i++)
-        enqueue(fila, i);
 
-    printf("Fila depois do enqueue:\n");
-    imprimirFila(fila);
+    enqueueCircular(fila, 2);
+    enqueueCircular(fila, 3);
+    enqueueCircular(fila, 4);
 
-    max_min_media(fila);
+    printf("Fila circular antes de furar:\n");
+    imprimirFilaCircular(fila);
+
+    furaFila(fila, 1);
+
+    printf("\nFila circular depois de furar:\n");
+    imprimirFilaCircular(fila);
 
     return 0;
 }
+
+/*
+Nesse exercicio a fila fica circular, entao o next do fim aponta de volta para o inicio.
+Para furar a fila em O(1), eu criei um novo no e coloquei ele antes do inicio, sem
+precisar andar pela fila inteira.
+Tambem precisei mudar a impressao, porque em fila circular o percurso para quando
+volta para o inicio.
+*/

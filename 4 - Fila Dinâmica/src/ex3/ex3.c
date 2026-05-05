@@ -2,57 +2,90 @@
 #include <stdlib.h>
 #include "fila_headers.h"
 
-Node *nodeRecursivo(Node *node)
+typedef struct pilhaAux
 {
-    if (node == NULL)
+    Node *topo;
+} PilhaAux;
+
+PilhaAux *criarPilhaAux()
+{
+    PilhaAux *pilha = malloc(sizeof(PilhaAux));
+    if (pilha == NULL)
         return NULL;
 
-    Node *auxNode;
-    if ((auxNode = malloc(sizeof(Node))) == NULL)
-        return NULL;
-
-    auxNode->data = node->data;
-    auxNode->next = nodeRecursivo(node->next);
-
-    return auxNode;
+    pilha->topo = NULL;
+    return pilha;
 }
 
-Fila *fila_copia(Fila *fila)
+void pushAux(PilhaAux *pilha, int data)
+{
+    Node *node = malloc(sizeof(Node));
+    if (node == NULL)
+        return;
+
+    node->data = data;
+    node->next = pilha->topo;
+    pilha->topo = node;
+}
+
+int topoAux(PilhaAux *pilha)
+{
+    return pilha->topo->data;
+}
+
+void popAux(PilhaAux *pilha)
+{
+    Node *node = pilha->topo;
+    pilha->topo = node->next;
+    free(node);
+}
+
+void inverterFila(Fila *fila)
 {
     if (fila == NULL)
-        return NULL;
+        return;
 
-    Fila *filaAux = criarFila();
-    if (filaAux == NULL)
-        return NULL;
+    PilhaAux *pilha = criarPilhaAux();
+    if (pilha == NULL)
+        return;
 
-    filaAux->inicio = nodeRecursivo(fila->inicio);
+    while (fila->inicio != NULL)
+    {
+        int aux = frente(fila);
+        dequeue(fila);
+        pushAux(pilha, aux);
+    }
 
-    Node *node = filaAux->inicio;
-    while (node != NULL && node->next != NULL)
-        node = node->next;
+    while (pilha->topo != NULL)
+    {
+        int aux = topoAux(pilha);
+        popAux(pilha);
+        enqueue(fila, aux);
+    }
 
-    filaAux->fim = node;
-    return filaAux;
+    free(pilha);
 }
 
 int main(void)
 {
     Fila *fila = criarFila();
-    for (int i = 0; i < 4; i++)
+
+    for (int i = 1; i <= 5; i++)
         enqueue(fila, i);
 
-    printf("Depois do enqueue:\n");
+    printf("Fila antes de inverter:\n");
     imprimirFila(fila);
 
-    printf("Depois da copia:\n");
-    Fila *copia = fila_copia(fila);
-    imprimirFila(copia);
+    inverterFila(fila);
+
+    printf("\nFila depois de inverter:\n");
+    imprimirFila(fila);
 
     return 0;
 }
 
 /*
-A copia percorre os nos mantendo a mesma ordem da fila original.
-Depois da copia dos nos, o ponteiro fim precisa apontar para o ultimo no copiado.
+Aqui eu usei a pilha como auxiliar para inverter a fila.
+Primeiro tirei todos os elementos da fila e empilhei. Depois desempilhei e enfileirei
+de novo. Como a pilha inverte a ordem, a fila volta ao contrario.
 */

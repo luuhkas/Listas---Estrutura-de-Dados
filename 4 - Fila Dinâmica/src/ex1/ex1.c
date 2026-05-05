@@ -2,47 +2,57 @@
 #include <stdlib.h>
 #include "fila_headers.h"
 
-int dequeue2(Fila *fila)
+int separa(Fila *f1, Fila *f2, int matricula)
 {
-    if (fila == NULL || fila->inicio == NULL || fila->inicio->next == NULL)
+    if (f1 == NULL || f2 == NULL || f1->inicio == NULL)
         return 1;
 
-    for (int i = 0; i < 2; i++)
-        dequeue(fila);
+    Node *node = f1->inicio;
 
-    return 0;
-}
+    while (node != NULL && node->data != matricula)
+        node = node->next;
 
-int enqueue2(Fila *fila, int data)
-{
-    if (fila == NULL)
+    if (node == NULL || node->next == NULL)
         return 1;
 
-    for (int i = 0; i < 2; i++)
-    {
-        if (enqueue(fila, data) != 0)
-            return 1;
-    }
+    f2->inicio = node->next;
+    f2->fim = f1->fim;
+
+    node->next = NULL;
+    f1->fim = node;
 
     return 0;
 }
 
 int main(void)
 {
-    Fila *fila = criarFila();
+    Fila *f1 = criarFila();
+    Fila *f2 = criarFila();
 
-    enqueue2(fila, 2);
-    printf("Apos o enqueue2:\n");
-    imprimirFila(fila);
+    for (int i = 1; i <= 6; i++)
+        enqueue(f1, i);
 
-    dequeue2(fila);
-    printf("Apos o dequeue2:\n");
-    imprimirFila(fila);
+    printf("Fila original:\n");
+    imprimirFila(f1);
+
+    if (separa(f1, f2, 3) == 0)
+    {
+        printf("\nPrimeira fila depois do separa:\n");
+        imprimirFila(f1);
+
+        printf("\nSegunda fila depois do separa:\n");
+        imprimirFila(f2);
+    }
+    else
+        printf("Nao foi possivel separar a fila\n");
 
     return 0;
 }
 
 /*
-Parecido com o exercicio de pilha, mas na fila a insercao acontece no fim
-e a remocao acontece no inicio.
+Nesse exercicio eu procurei a primeira ocorrencia da matricula na fila.
+Quando achei, a segunda fila passou a apontar para o proximo no, e a primeira
+foi cortada naquele ponto.
+O cuidado aqui foi arrumar o fim das duas filas, porque senao elas ficam apontando
+para lugares errados depois da separacao.
 */
