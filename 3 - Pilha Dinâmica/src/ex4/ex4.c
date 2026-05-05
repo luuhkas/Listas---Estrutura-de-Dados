@@ -10,15 +10,16 @@ void max_min_media(Pilha *pilha)
         return;
     }
 
-    int maior, menor, media = 0, soma = 0, count = 0;
-    Node *node;
-    if ((node = malloc(sizeof(Node))) == NULL)
+    if (pilha->topo == NULL)
     {
-        printf("Erro de alocacao de memoria");
+        printf("A pilha esta vazia\n");
         return;
     }
 
-    node = pilha->topo;
+    int maior, menor, soma = 0, count = 0;
+    float media = 0;
+
+    Node *node = pilha->topo;
     maior = menor = node->data;
 
     while (node != NULL)
@@ -32,11 +33,11 @@ void max_min_media(Pilha *pilha)
         count++;
         node = node->next;
     }
-    media = soma / count;
+    media = (float)soma / count;
 
     printf("\nO maior elemento da pilha eh: %d\n", maior);
     printf("\nO menor elemento da pilha eh: %d\n", menor);
-    printf("\nA media dos elementos da pilha eh: %d\n", media);
+    printf("\nA media dos elementos da pilha eh: %.2f\n", media);
 }
 
 int main(void)
@@ -52,3 +53,11 @@ int main(void)
 
     return 0;
 }
+
+/*
+Esse exercicio foi mais direto, eu so precisei percorrer a pilha com um no auxiliar
+e ir comparando para achar o maior e o menor. Para a media, fui somando todos os
+valores e contando quantos nos tinham na pilha.
+O cuidado maior aqui foi lembrar de tratar a pilha vazia, porque se o topo for NULL
+nao da para acessar o data.
+*/
