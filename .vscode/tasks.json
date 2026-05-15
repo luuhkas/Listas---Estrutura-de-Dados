@@ -7,7 +7,7 @@
             "command": "/bin/bash",
             "args": [
                 "-c",
-                "list_dir=\"${fileDirname}/../..\"; mkdir -p \"$list_dir/build\"; shopt -s nullglob; srcs=(\"${fileDirname}\"/*.c); if [ -d \"$list_dir/base\" ]; then srcs+=(\"$list_dir\"/base/*.c); fi; includes=(\"-I${fileDirname}\"); if [ -d \"$list_dir/base\" ]; then includes+=(\"-I$list_dir/base\"); fi; clang \"${srcs[@]}\" \"${includes[@]}\" -g -o \"$list_dir/build/${fileBasenameNoExtension}\""
+                "if [ \"$(basename \"${fileDirname}\")\" = \"src\" ]; then list_dir=\"${fileDirname}/..\"; srcs=(\"${file}\"); for helper in \"${fileDirname}\"/*.c; do [ \"$helper\" = \"${file}\" ] && continue; grep -q \"int main\" \"$helper\" && continue; srcs+=(\"$helper\"); done; else list_dir=\"${fileDirname}/../..\"; srcs=(\"${fileDirname}\"/*.c); fi; mkdir -p \"$list_dir/build\"; shopt -s nullglob; if [ -d \"$list_dir/base\" ]; then srcs+=(\"$list_dir\"/base/*.c); fi; includes=(\"-I${fileDirname}\"); if [ -d \"$list_dir/base\" ]; then includes+=(\"-I$list_dir/base\"); fi; clang \"${srcs[@]}\" \"${includes[@]}\" -g -o \"$list_dir/build/${fileBasenameNoExtension}\""
             ],
             "group": {
                 "kind": "build",
@@ -23,7 +23,7 @@
             "command": "/bin/bash",
             "args": [
                 "-c",
-                "list_dir=\"${fileDirname}/../..\"; mkdir -p \"$list_dir/build\"; shopt -s nullglob; srcs=(\"${fileDirname}\"/*.c); if [ -d \"$list_dir/base\" ]; then srcs+=(\"$list_dir\"/base/*.c); fi; includes=(\"-I${fileDirname}\"); if [ -d \"$list_dir/base\" ]; then includes+=(\"-I$list_dir/base\"); fi; clang \"${srcs[@]}\" \"${includes[@]}\" -g -o \"$list_dir/build/${fileBasenameNoExtension}\" && \"$list_dir/build/${fileBasenameNoExtension}\""
+                "if [ \"$(basename \"${fileDirname}\")\" = \"src\" ]; then list_dir=\"${fileDirname}/..\"; srcs=(\"${file}\"); for helper in \"${fileDirname}\"/*.c; do [ \"$helper\" = \"${file}\" ] && continue; grep -q \"int main\" \"$helper\" && continue; srcs+=(\"$helper\"); done; else list_dir=\"${fileDirname}/../..\"; srcs=(\"${fileDirname}\"/*.c); fi; mkdir -p \"$list_dir/build\"; shopt -s nullglob; if [ -d \"$list_dir/base\" ]; then srcs+=(\"$list_dir\"/base/*.c); fi; includes=(\"-I${fileDirname}\"); if [ -d \"$list_dir/base\" ]; then includes+=(\"-I$list_dir/base\"); fi; clang \"${srcs[@]}\" \"${includes[@]}\" -g -o \"$list_dir/build/${fileBasenameNoExtension}\" && \"$list_dir/build/${fileBasenameNoExtension}\""
             ],
             "group": "none"
         }

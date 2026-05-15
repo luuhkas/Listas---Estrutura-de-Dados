@@ -77,9 +77,10 @@ retorna zero, porque essa eh a regra da matriz esparsa.
 valor informado. Se encontrar, retorna o ponteiro daquele no. Se nao
 encontrar, retorna `NULL`.
 
-`imprimirMatriz` mostra a matriz completa, incluindo os zeros. Para cada linha
-percorre a lista da linha. Quando a coluna atual da lista bate com a coluna
-sendo impressa, mostra o valor armazenado. Caso contrario, imprime zero.
+`imprimirMatriz` mostra a matriz no formato de tabela. Para cada linha percorre
+a lista da linha. Quando a coluna atual da lista bate com a coluna sendo
+impressa, mostra o valor armazenado. Caso contrario, imprime espaco em branco,
+reforcando visualmente que aquela posicao nao ocupa memoria na estrutura.
 
 `imprimirEsparsa` mostra apenas as coordenadas com valor diferente de zero,
 junto com o total de posicoes e a contagem de armazenadas. Eh a visao mais
@@ -90,8 +91,10 @@ baixo, esquerda e direita). Como na matriz esparsa os ponteiros `direita` e
 `abaixo` apontam para o proximo no nao zero (e nao para a posicao
 imediatamente adjacente), os vizinhos sao obtidos consultando as coordenadas
 `(linha-1, coluna)`, `(linha+1, coluna)`, `(linha, coluna-1)` e
-`(linha, coluna+1)`. Quando o vizinho fica fora dos limites da matriz, a
-funcao imprime `null`.
+`(linha, coluna+1)`. A funcao diferencia tres situacoes na saida: quando o
+vizinho esta fora dos limites da matriz, imprime "fora dos limites"; quando
+a posicao existe na matriz mas nao tem no armazenado, imprime "vazio";
+quando a posicao tem no armazenado, imprime o valor.
 
 `contarNaoZeros` percorre todas as listas de linha e conta quantos nos
 existem.

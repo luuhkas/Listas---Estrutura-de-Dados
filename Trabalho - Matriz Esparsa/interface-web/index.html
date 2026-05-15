@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Matriz Esparsa</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=11">
+</head>
+<body>
+    <main class="app">
+        <section class="toolbar">
+            <div>
+                <h1>Matriz Esparsa</h1>
+                <p>Interface web separada para executar o programa C original. As posicoes comecam em 0 (mesmo padrao do projeto).</p>
+            </div>
+
+            <div class="create-form">
+                <label>
+                    Linhas
+                    <input id="rows" type="number" min="1" value="4">
+                </label>
+                <label>
+                    Colunas
+                    <input id="cols" type="number" min="1" value="4">
+                </label>
+                <button id="createMatrix" type="button">Criar matriz</button>
+            </div>
+        </section>
+
+        <section class="stats">
+            <div>
+                <span>Dimensão</span>
+                <strong id="statSize">—</strong>
+            </div>
+            <div>
+                <span>Posições totais (m × n)</span>
+                <strong id="statTotal">0</strong>
+            </div>
+            <div>
+                <span>Valores não-zero (r)</span>
+                <strong id="statFilled">0</strong>
+            </div>
+            <div>
+                <span>Nós alocados (m + n + r + 1)</span>
+                <strong id="statNodes">0</strong>
+            </div>
+        </section>
+
+        <section class="panel comparison-panel">
+            <div class="panel-title">
+                <h2>Comparação de memória: matriz densa vs esparsa</h2>
+                <span>Calculado em tempo real para a matriz atual</span>
+            </div>
+
+            <div class="comparison-grid">
+                <div class="comp-row" id="denseRow">
+                    <div class="comp-header">
+                        <span class="comp-label">Matriz densa</span>
+                        <span class="comp-formula">int M[m][n] = m × n × 4 bytes</span>
+                    </div>
+                    <div class="bar-wrap">
+                        <div class="bar bar-dense" id="denseBar"></div>
+                    </div>
+                    <div class="comp-value" id="denseBytes">—</div>
+                </div>
+
+                <div class="comp-row" id="sparseRow">
+                    <div class="comp-header">
+                        <span class="comp-label">Matriz esparsa (este projeto)</span>
+                        <span class="comp-formula">(m + n + r + 1) × 32 bytes</span>
+                    </div>
+                    <div class="bar-wrap">
+                        <div class="bar bar-sparse" id="sparseBar"></div>
+                    </div>
+                    <div class="comp-value" id="sparseBytes">—</div>
+                </div>
+            </div>
+
+            <div class="comp-verdict" id="comparisonVerdict">
+                Crie uma matriz para ver a comparação.
+            </div>
+
+            <div class="comp-tip" id="comparisonTip">
+                Crie uma matriz para ver a análise detalhada.
+            </div>
+        </section>
+
+        <section class="workspace">
+            <div class="panel controls">
+                <h2>Operacoes</h2>
+
+                <div class="form-grid">
+                    <label>
+                        Linha
+                        <input id="x" type="number" min="0" value="0">
+                    </label>
+                    <label>
+                        Coluna
+                        <input id="y" type="number" min="0" value="0">
+                    </label>
+                    <label>
+                        Valor
+                        <input id="value" type="number" value="10">
+                    </label>
+                </div>
+
+                <div class="button-grid">
+                    <button id="insertValue" class="primary" type="button">Inserir</button>
+                    <button id="removeValue" type="button">Remover</button>
+                    <button id="consultCell" type="button">Consultar</button>
+                    <button id="searchValue" type="button">Buscar</button>
+                    <button id="showNeighbors" type="button">Vizinhos</button>
+                    <button id="clearMatrix" class="secondary" type="button">Limpar</button>
+                </div>
+
+                <div class="demo-section">
+                    <h3>Demo animada</h3>
+                    <button id="runZiviani" type="button">Carregar exemplo do Ziviani</button>
+                    <small>Cria uma matriz 4x4 e insere os 6 valores classicos passo a passo, mostrando o algoritmo executando.</small>
+                </div>
+
+                <div class="speed-control">
+                    <label>
+                        Velocidade da demo
+                        <select id="demoSpeed">
+                            <option value="500">Rapida</option>
+                            <option value="900" selected>Normal</option>
+                            <option value="1500">Lenta</option>
+                        </select>
+                    </label>
+                </div>
+
+                <p class="ultima-acao"><span>Ultima acao:</span> <strong id="statAction">Aguardando</strong></p>
+            </div>
+
+            <div class="panel structure-panel">
+                <div class="panel-title">
+                    <h2>Estrutura interna (lista cruzada de Ziviani)</h2>
+                    <span id="structureHint">Crie uma matriz para visualizar.</span>
+                </div>
+                <div id="structureSvg" class="structure-svg-wrapper">
+                    <p class="placeholder">A estrutura aparece aqui apos criar uma matriz.</p>
+                </div>
+                <div id="narration" class="narration hidden"></div>
+            <div class="legend-section">
+                <span class="legend-label">Elementos</span>
+                <span class="legend-item"><span class="dot main"></span> nó principal</span>
+                <span class="legend-item"><span class="dot head"></span> cabeças (linha/coluna)</span>
+                <span class="legend-item"><span class="dot real"></span> nós reais (não-zero)</span>
+            </div>
+            <div class="legend-section">
+                <span class="legend-label">Setas</span>
+                <span class="legend-item"><span class="arrow-icon arrow-blue"></span> próximo na lista (direita / abaixo)</span>
+                <span class="legend-item"><span class="arrow-icon arrow-yellow"></span> volta circular (fecha o anel)</span>
+                <span class="legend-item"><span class="loop-icon"></span> auto-loop (cabeça vazia)</span>
+            </div>
+            <div class="legend-section">
+                <span class="legend-label">Durante a demo</span>
+                <span class="legend-item"><span class="dot walk pulsing"></span> caminhando (visitando agora)</span>
+                <span class="legend-item"><span class="dot target"></span> encontrado</span>
+                <span class="legend-item"><span class="dot anchor"></span> antLinha / antColuna (ponto de ancoragem)</span>
+                <span class="legend-item"><span class="dot link"></span> nó recém-inserido</span>
+            </div>
+            </div>
+        </section>
+
+        <section class="panel sparse-panel">
+            <div class="panel-title">
+                <h2>Forma esparsa</h2>
+                <span>Lista das coordenadas com valor diferente de zero</span>
+            </div>
+            <div id="sparseView" class="sparse-view">Nenhum valor inserido.</div>
+        </section>
+
+        <section class="panel">
+            <div class="panel-title">
+                <h2>Saida original do programa C</h2>
+                <span>Exatamente como o terminal imprime</span>
+            </div>
+            <pre id="output">Crie uma matriz para comecar.</pre>
+        </section>
+    </main>
+
+    <script src="app.js?v=10"></script>
+</body>
+</html>

@@ -1,5 +1,4 @@
-#ifndef MATRIZ_ESPARSA_H
-#define MATRIZ_ESPARSA_H
+#pragma once
 
 typedef struct node
 {
@@ -28,5 +27,3 @@ void imprimirMatriz(MatrizEsparsa *matriz);
 void imprimirEsparsa(MatrizEsparsa *matriz);
 void imprimirVizinhos(MatrizEsparsa *matriz, int linha, int coluna);
 int contarNaoZeros(MatrizEsparsa *matriz);
-
-#endif

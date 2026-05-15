@@ -338,7 +338,7 @@ void imprimirMatriz(MatrizEsparsa *matriz)
                 node = node->direita;
             }
             else
-                printf("%6d", 0);
+                printf("%6s", "");
         }
         printf("\n");
         cabecaLinha = cabecaLinha->abaixo;
@@ -391,7 +391,8 @@ void imprimirEsparsa(MatrizEsparsa *matriz)
 
 void imprimirVizinhos(MatrizEsparsa *matriz, int linha, int coluna)
 {
-    int valorCentro;
+    Node *vizinho;
+    Node *centro;
 
     if (matriz == NULL)
     {
@@ -404,31 +405,58 @@ void imprimirVizinhos(MatrizEsparsa *matriz, int linha, int coluna)
         return;
     }
 
-    valorCentro = obterValor(matriz, linha, coluna);
+    centro = consultarPosicao(matriz, linha, coluna);
 
     printf("\nVizinhos da posicao (%d,%d)\n", linha, coluna);
-    printf("Valor central: %d\n", valorCentro);
+    if (centro == NULL)
+        printf("Posicao central vazia (nao ocupa memoria).\n");
+    else
+        printf("Valor central: %d\n", centro->valor);
     printf("--------------------------\n");
 
-    if (linha - 1 >= 0)
-        printf("Cima     : (%d,%d) = %d\n", linha - 1, coluna, obterValor(matriz, linha - 1, coluna));
+    if (linha - 1 < 0)
+        printf("Cima     : fora dos limites\n");
     else
-        printf("Cima     : null\n");
+    {
+        vizinho = consultarPosicao(matriz, linha - 1, coluna);
+        if (vizinho == NULL)
+            printf("Cima     : (%d,%d) vazio\n", linha - 1, coluna);
+        else
+            printf("Cima     : (%d,%d) = %d\n", linha - 1, coluna, vizinho->valor);
+    }
 
-    if (linha + 1 < matriz->linhas)
-        printf("Baixo    : (%d,%d) = %d\n", linha + 1, coluna, obterValor(matriz, linha + 1, coluna));
+    if (linha + 1 >= matriz->linhas)
+        printf("Baixo    : fora dos limites\n");
     else
-        printf("Baixo    : null\n");
+    {
+        vizinho = consultarPosicao(matriz, linha + 1, coluna);
+        if (vizinho == NULL)
+            printf("Baixo    : (%d,%d) vazio\n", linha + 1, coluna);
+        else
+            printf("Baixo    : (%d,%d) = %d\n", linha + 1, coluna, vizinho->valor);
+    }
 
-    if (coluna - 1 >= 0)
-        printf("Esquerda : (%d,%d) = %d\n", linha, coluna - 1, obterValor(matriz, linha, coluna - 1));
+    if (coluna - 1 < 0)
+        printf("Esquerda : fora dos limites\n");
     else
-        printf("Esquerda : null\n");
+    {
+        vizinho = consultarPosicao(matriz, linha, coluna - 1);
+        if (vizinho == NULL)
+            printf("Esquerda : (%d,%d) vazio\n", linha, coluna - 1);
+        else
+            printf("Esquerda : (%d,%d) = %d\n", linha, coluna - 1, vizinho->valor);
+    }
 
-    if (coluna + 1 < matriz->colunas)
-        printf("Direita  : (%d,%d) = %d\n", linha, coluna + 1, obterValor(matriz, linha, coluna + 1));
+    if (coluna + 1 >= matriz->colunas)
+        printf("Direita  : fora dos limites\n");
     else
-        printf("Direita  : null\n");
+    {
+        vizinho = consultarPosicao(matriz, linha, coluna + 1);
+        if (vizinho == NULL)
+            printf("Direita  : (%d,%d) vazio\n", linha, coluna + 1);
+        else
+            printf("Direita  : (%d,%d) = %d\n", linha, coluna + 1, vizinho->valor);
+    }
 }
 
 int contarNaoZeros(MatrizEsparsa *matriz)
