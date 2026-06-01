@@ -99,6 +99,38 @@ quando a posicao tem no armazenado, imprime o valor.
 `contarNaoZeros` percorre todas as listas de linha e conta quantos nos
 existem.
 
+## Operacoes extras: soma e multiplicacao
+
+Alem das funcoes basicas, foram implementadas duas operacoes entre matrizes.
+Ambas criam uma matriz nova com o resultado e nao modificam as matrizes de
+entrada.
+
+`somarMatrizes` recebe duas matrizes A e B e devolve C = A + B. So eh possivel
+somar matrizes com as mesmas dimensoes; caso contrario a funcao retorna `NULL`.
+A funcao cria C com as dimensoes de A, copia para C todos os nao zeros de A e,
+em seguida, percorre os nao zeros de B somando cada um ao valor ja existente na
+posicao correspondente de C. Como `inserirValor` trata o valor zero como
+remocao, quando uma soma se anula (por exemplo `5 + (-5)`) a posicao
+simplesmente nao ocupa no em C, mantendo a invariante da matriz esparsa.
+Percorrendo apenas os nao zeros, a soma custa proporcional ao numero de
+elementos armazenados, e nao a `linhas * colunas`.
+
+`multiplicarMatrizes` recebe A e B e devolve C = A x B. So eh possivel
+multiplicar quando o numero de colunas de A eh igual ao numero de linhas de B;
+caso contrario retorna `NULL`. C eh criada com `linhas` de A e `colunas` de B.
+Para cada no nao zero `A(i,j)`, a funcao percorre a lista da linha `j` de B
+(usando a cabeca da linha) e, para cada `B(j,k)`, acumula o produto
+`A(i,j) * B(j,k)` na posicao `C(i,k)`. Aqui a estrutura de lista cruzada eh
+vantajosa: percorrer a linha `j` de B segue apenas os ponteiros `direita`,
+visitando somente os nao zeros daquela linha. Assim como na soma, produtos que
+resultam em zero nao ocupam no.
+
+Essas duas operacoes sao funcionalidades adicionais (o enunciado as trata como
+pontos extras). A estrutura nao precisou de nenhuma mudanca para suporta-las,
+porque todas as funcoes ja recebem a matriz como parametro e `criarMatriz`
+devolve matrizes independentes, permitindo manter varias matrizes ao mesmo
+tempo.
+
 ## Interface
 
 O arquivo `main.c` tem um menu por terminal. As opcoes sao:
@@ -111,6 +143,7 @@ O arquivo `main.c` tem um menu por terminal. As opcoes sao:
 - imprimir vizinhos;
 - imprimir matriz completa;
 - imprimir forma esparsa;
+- demonstrar operacoes (soma e multiplicacao);
 - sair.
 
 A matriz completa eh exibida sempre que a estrutura muda, para facilitar
@@ -138,6 +171,24 @@ ponteiro atual com o no principal para nao entrar em loop infinito.
 ## Referencias
 
 A representacao de matriz esparsa por lista cruzada de listas circulares com
-nos-cabeca usada neste trabalho eh descrita no livro *Projeto de Algoritmos
-com Implementacoes em Pascal e C*, de Nivio Ziviani, no exercicio sobre
-matrizes esparsas do capitulo de listas encadeadas.
+nos-cabeca usada neste trabalho eh descrita por Nivio Ziviani no livro *Projeto
+de Algoritmos com Implementacoes em Pascal e C*, como exercicio do capitulo de
+Estruturas de Dados Basicas (listas encadeadas), pagina 59, exercicio 3. Nesse
+exercicio o autor mostra que uma matriz esparsa m x n com r elementos diferentes
+de zero gasta (m + n + r) celulas, em vez das m x n posicoes de uma matriz densa.
+A implementacao em C deste trabalho foi feita a partir dessa descricao.
+
+Fonte primaria (livro):
+
+> ZIVIANI, Nivio. **Projeto de algoritmos: com implementacoes em Pascal e C**.
+> Sao Paulo: Cengage Learning. p. 59, exercicio 3.
+>
+> Observacao: confirmar a edicao e o ano no exemplar consultado, pois a pagina
+> 59 depende da edicao (o livro tem 2a e 3a edicoes).
+
+Fonte de consulta (material academico que reproduz o texto e a figura da
+estrutura, do mesmo departamento do autor - DCC/UFMG):
+
+> MEIRA JR., Wagner. *Algoritmos e Estruturas de Dados II - Trabalho Pratico 1:
+> Matrizes esparsas*. Departamento de Ciencia da Computacao, UFMG. Disponivel em:
+> https://homepages.dcc.ufmg.br/~meira/aeds2/tp1/. Acesso em: 31 maio 2026.

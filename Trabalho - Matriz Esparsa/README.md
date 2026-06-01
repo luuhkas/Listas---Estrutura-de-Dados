@@ -11,12 +11,9 @@ Nivio Ziviani no livro *Projeto de Algoritmos com Implementacoes em Pascal e C*.
 
 ## Estrutura
 
-- `src/`: codigo do trabalho em C (matriz_esparsa.h, matriz_esparsa.c, main.c, testes.c).
+- `src/`: codigo do trabalho em C (matriz.h, matriz.c, main.c, testes.c).
 - `build/`: executaveis gerados localmente.
 - `DOCUMENTO.md`: explicacao dos metodos criados e dos desafios.
-- `estudo.html`: material visual de estudo com diagrama da estrutura, traces de
-  operacoes passo a passo, complexidades e referencias bibliograficas. Abra
-  direto no navegador.
 - `interface-web/`: interface web auxiliar para visualizar a estrutura interna
   em tempo real, com demo animada. Veja o `README.md` dentro da pasta.
 
@@ -25,7 +22,7 @@ Nivio Ziviani no livro *Projeto de Algoritmos com Implementacoes em Pascal e C*.
 Use:
 
 ```sh
-gcc -Wall -Wextra src/main.c src/matriz_esparsa.c -o build/trabalho_matriz_esparsa
+gcc -Wall -Wextra src/main.c src/matriz.c -o build/trabalho_matriz_esparsa
 ```
 
 Depois execute:
@@ -36,33 +33,21 @@ Depois execute:
 
 O programa principal abre um menu no terminal para criar a matriz, inserir valor,
 remover valor, consultar posicao, buscar valor, imprimir vizinhos, imprimir a matriz
-completa e imprimir a forma esparsa com apenas as coordenadas armazenadas.
+completa, imprimir a forma esparsa com apenas as coordenadas armazenadas e
+demonstrar as operacoes de soma e multiplicacao de matrizes.
 
 ## Como testar
 
 Use:
 
 ```sh
-gcc -Wall -Wextra src/testes.c src/matriz_esparsa.c -o build/testes_matriz_esparsa
+gcc -Wall -Wextra src/testes.c src/matriz.c -o build/testes_matriz_esparsa
 ./build/testes_matriz_esparsa
 ```
 
 A suite cobre criacao, insercao, remocao, consulta, busca, contagem, casos de
-borda e a estrutura interna completa do exemplo classico do Ziviani (verificando
-cada ponteiro um a um).
-
-## Material de estudo
-
-O arquivo `estudo.html` (basta abrir no navegador) reune em uma so pagina:
-
-- motivacao da matriz esparsa e quando vale a pena
-- diagrama SVG da estrutura interna (lista cruzada com nos-cabeca)
-- codigo real comentado das principais funcoes
-- traces de insercao, remocao e consulta passo a passo
-- analise de complexidade de todas as operacoes
-- comparacao com matriz densa
-- perguntas e respostas para apresentacao
-- referencias bibliograficas
+borda, a estrutura interna completa do exemplo classico do Ziviani (verificando
+cada ponteiro um a um) e as operacoes de soma e multiplicacao de matrizes.
 
 ## Interface web (extra)
 

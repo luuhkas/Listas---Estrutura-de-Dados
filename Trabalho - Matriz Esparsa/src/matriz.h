@@ -27,3 +27,6 @@ void imprimirMatriz(MatrizEsparsa *matriz);
 void imprimirEsparsa(MatrizEsparsa *matriz);
 void imprimirVizinhos(MatrizEsparsa *matriz, int linha, int coluna);
 int contarNaoZeros(MatrizEsparsa *matriz);
+
+MatrizEsparsa *somarMatrizes(MatrizEsparsa *a, MatrizEsparsa *b);
+MatrizEsparsa *multiplicarMatrizes(MatrizEsparsa *a, MatrizEsparsa *b);

@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "matriz_esparsa.h"
+#include "matriz.h"
 
 int main(void)
 {
@@ -25,6 +25,7 @@ int main(void)
         printf("6 - Imprimir vizinhos\n");
         printf("7 - Imprimir matriz\n");
         printf("8 - Imprimir forma esparsa\n");
+        printf("9 - Demonstrar operacoes (soma e multiplicacao)\n");
         printf("0 - Sair\n");
         printf("Escolha uma opcao: ");
 
@@ -245,6 +246,42 @@ int main(void)
             else
                 imprimirEsparsa(matriz);
             break;
+
+        case 9:
+        {
+            MatrizEsparsa *a = criarMatriz(2, 2);
+            MatrizEsparsa *b = criarMatriz(2, 2);
+            MatrizEsparsa *soma;
+            MatrizEsparsa *produto;
+
+            inserirValor(a, 0, 0, 1);
+            inserirValor(a, 0, 1, 2);
+            inserirValor(a, 1, 1, 3);
+
+            inserirValor(b, 0, 0, 4);
+            inserirValor(b, 1, 0, 5);
+            inserirValor(b, 1, 1, 6);
+
+            printf("\n--- Demonstracao de operacoes com matrizes ---");
+            printf("\nMatriz A:");
+            imprimirMatriz(a);
+            printf("\nMatriz B:");
+            imprimirMatriz(b);
+
+            soma = somarMatrizes(a, b);
+            printf("\nA + B:");
+            imprimirMatriz(soma);
+
+            produto = multiplicarMatrizes(a, b);
+            printf("\nA * B:");
+            imprimirMatriz(produto);
+
+            desalocarMatriz(a);
+            desalocarMatriz(b);
+            desalocarMatriz(soma);
+            desalocarMatriz(produto);
+            break;
+        }
 
         case 0:
             executando = 0;

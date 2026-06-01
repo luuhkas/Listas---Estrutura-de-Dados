@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "matriz_esparsa.h"
+#include "matriz.h"
 
 static int testesExecutados = 0;
 static int testesFalharam = 0;
@@ -367,6 +367,80 @@ static void testarMatrizGrande(void)
     desalocarMatriz(matriz);
 }
 
+static void testarSomaMatrizes(void)
+{
+    MatrizEsparsa *a = criarMatriz(2, 2);
+    MatrizEsparsa *b = criarMatriz(2, 2);
+    MatrizEsparsa *c = criarMatriz(2, 3);
+    MatrizEsparsa *soma;
+
+    printf("\nTeste de soma de matrizes\n");
+
+    inserirValor(a, 0, 0, 5);
+    inserirValor(a, 0, 1, 2);
+    inserirValor(b, 0, 0, -5);
+    inserirValor(b, 1, 1, 7);
+
+    soma = somarMatrizes(a, b);
+    verificar(soma != NULL, "soma retorna matriz valida");
+    verificar(soma->linhas == 2 && soma->colunas == 2, "soma tem dimensoes corretas");
+    verificar(obterValor(soma, 0, 1) == 2, "soma: (0,1) = 2 (so em A)");
+    verificar(obterValor(soma, 1, 1) == 7, "soma: (1,1) = 7 (so em B)");
+    verificar(obterValor(soma, 0, 0) == 0 && consultarPosicao(soma, 0, 0) == NULL,
+              "soma: 5 + (-5) = 0 nao ocupa no");
+    verificar(contarNaoZeros(soma) == 2, "soma: total de nao zeros = 2");
+    verificar(contarNaoZeros(a) == 2 && obterValor(a, 0, 0) == 5, "soma nao altera matriz A");
+    verificar(contarNaoZeros(b) == 2, "soma nao altera matriz B");
+
+    verificar(somarMatrizes(a, c) == NULL, "soma com dimensoes incompativeis retorna NULL");
+    verificar(somarMatrizes(NULL, b) == NULL, "soma com matriz NULL retorna NULL");
+
+    desalocarMatriz(a);
+    desalocarMatriz(b);
+    desalocarMatriz(c);
+    desalocarMatriz(soma);
+}
+
+static void testarMultiplicacaoMatrizes(void)
+{
+    MatrizEsparsa *a = criarMatriz(2, 3);
+    MatrizEsparsa *b = criarMatriz(3, 2);
+    MatrizEsparsa *incompativel = criarMatriz(2, 2);
+    MatrizEsparsa *produto;
+
+    printf("\nTeste de multiplicacao de matrizes\n");
+
+    /* A (2x3) = [[1,2,3],[4,0,0]]  e  B (3x2) = [[1,0],[0,1],[1,1]] */
+    inserirValor(a, 0, 0, 1);
+    inserirValor(a, 0, 1, 2);
+    inserirValor(a, 0, 2, 3);
+    inserirValor(a, 1, 0, 4);
+    inserirValor(b, 0, 0, 1);
+    inserirValor(b, 1, 1, 1);
+    inserirValor(b, 2, 0, 1);
+    inserirValor(b, 2, 1, 1);
+
+    produto = multiplicarMatrizes(a, b);
+    verificar(produto != NULL, "multiplicacao retorna matriz valida");
+    verificar(produto->linhas == 2 && produto->colunas == 2, "produto (2x3 * 3x2) eh 2x2");
+    verificar(obterValor(produto, 0, 0) == 4, "produto: C(0,0) = 1*1+3*1 = 4");
+    verificar(obterValor(produto, 0, 1) == 5, "produto: C(0,1) = 2*1+3*1 = 5");
+    verificar(obterValor(produto, 1, 0) == 4, "produto: C(1,0) = 4*1 = 4");
+    verificar(obterValor(produto, 1, 1) == 0 && consultarPosicao(produto, 1, 1) == NULL,
+              "produto: C(1,1) = 0 nao ocupa no");
+    verificar(contarNaoZeros(produto) == 3, "produto: total de nao zeros = 3");
+    verificar(contarNaoZeros(a) == 4, "multiplicacao nao altera matriz A");
+
+    verificar(multiplicarMatrizes(a, incompativel) == NULL,
+              "multiplicacao com dimensoes incompativeis retorna NULL");
+    verificar(multiplicarMatrizes(a, NULL) == NULL, "multiplicacao com matriz NULL retorna NULL");
+
+    desalocarMatriz(a);
+    desalocarMatriz(b);
+    desalocarMatriz(incompativel);
+    desalocarMatriz(produto);
+}
+
 int main(void)
 {
     testarMatriz4x4();
@@ -380,6 +454,8 @@ int main(void)
     testarVizinhosNasBordas();
     testarEstruturaCompletaZiviani();
     testarMatrizGrande();
+    testarSomaMatrizes();
+    testarMultiplicacaoMatrizes();
 
     printf("\nTestes executados: %d\n", testesExecutados);
     printf("Testes com falha: %d\n", testesFalharam);

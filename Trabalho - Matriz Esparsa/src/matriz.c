@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "matriz_esparsa.h"
+#include "matriz.h"
 
 /*
  * Estrutura usada:
@@ -481,4 +481,87 @@ int contarNaoZeros(MatrizEsparsa *matriz)
     }
 
     return quantidade;
+}
+
+MatrizEsparsa *somarMatrizes(MatrizEsparsa *a, MatrizEsparsa *b)
+{
+    MatrizEsparsa *c;
+    Node *cabecaLinha;
+    Node *node;
+
+    if (a == NULL || b == NULL)
+        return NULL;
+    if (a->linhas != b->linhas || a->colunas != b->colunas)
+        return NULL;
+
+    c = criarMatriz(a->linhas, a->colunas);
+    if (c == NULL)
+        return NULL;
+
+    cabecaLinha = a->inicio->abaixo;
+    while (cabecaLinha != a->inicio)
+    {
+        node = cabecaLinha->direita;
+        while (node != cabecaLinha)
+        {
+            inserirValor(c, node->linha, node->coluna, node->valor);
+            node = node->direita;
+        }
+        cabecaLinha = cabecaLinha->abaixo;
+    }
+
+    cabecaLinha = b->inicio->abaixo;
+    while (cabecaLinha != b->inicio)
+    {
+        node = cabecaLinha->direita;
+        while (node != cabecaLinha)
+        {
+            inserirValor(c, node->linha, node->coluna,
+                         obterValor(c, node->linha, node->coluna) + node->valor);
+            node = node->direita;
+        }
+        cabecaLinha = cabecaLinha->abaixo;
+    }
+
+    return c;
+}
+
+MatrizEsparsa *multiplicarMatrizes(MatrizEsparsa *a, MatrizEsparsa *b)
+{
+    MatrizEsparsa *c;
+    Node *cabecaLinhaA;
+    Node *nodeA;
+    Node *cabecaLinhaB;
+    Node *nodeB;
+
+    if (a == NULL || b == NULL)
+        return NULL;
+    if (a->colunas != b->linhas)
+        return NULL;
+
+    c = criarMatriz(a->linhas, b->colunas);
+    if (c == NULL)
+        return NULL;
+
+    cabecaLinhaA = a->inicio->abaixo;
+    while (cabecaLinhaA != a->inicio)
+    {
+        nodeA = cabecaLinhaA->direita;
+        while (nodeA != cabecaLinhaA)
+        {
+            cabecaLinhaB = acharCabecaLinha(b, nodeA->coluna);
+            nodeB = cabecaLinhaB->direita;
+            while (nodeB != cabecaLinhaB)
+            {
+                inserirValor(c, nodeA->linha, nodeB->coluna,
+                             obterValor(c, nodeA->linha, nodeB->coluna) +
+                                 nodeA->valor * nodeB->valor);
+                nodeB = nodeB->direita;
+            }
+            nodeA = nodeA->direita;
+        }
+        cabecaLinhaA = cabecaLinhaA->abaixo;
+    }
+
+    return c;
 }
