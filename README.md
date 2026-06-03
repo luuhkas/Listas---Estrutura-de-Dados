@@ -11,6 +11,7 @@ e estruturas de dados dinamicas.
 - `4 - Fila Dinâmica/`: implementacao base de fila dinamica e exercicios.
 - `5 - Listas/`: implementacao base de lista simplesmente encadeada e exercicios.
 - `6 - Listas Duplamente Encadeadas/`: implementacao base de lista dupla e exercicios.
+- `7 - Árvores I/`: arvore binaria de busca usando o projeto do professor.
 - `Trabalho - Matriz Esparsa/`: trabalho em C com matriz esparsa usando lista cruzada.
 
 Nas listas com estrutura dinamica, o padrao geral usado eh:
@@ -64,6 +65,15 @@ gcc -Wall -Wextra -I '6 - Listas Duplamente Encadeadas/base' \
   '6 - Listas Duplamente Encadeadas/src/ex1/ex1.c' \
   '6 - Listas Duplamente Encadeadas/base/lista_dupla_functions.c' \
   -o /tmp/ex1
+```
+
+Exemplo para a arvore binaria (Lista 7):
+
+```sh
+gcc -Wall -Wextra -I '7 - Árvores I/base' \
+  '7 - Árvores I/src/main.c' \
+  '7 - Árvores I/base/ArvoreBinaria.c' \
+  -o /tmp/lista7
 ```
 
 Exemplo para o trabalho de matriz esparsa:
