@@ -12,6 +12,7 @@ e estruturas de dados dinamicas.
 - `5 - Listas/`: implementacao base de lista simplesmente encadeada e exercicios.
 - `6 - Listas Duplamente Encadeadas/`: implementacao base de lista dupla e exercicios.
 - `7 - Árvores I/`: arvore binaria de busca usando o projeto do professor.
+- `8 - Árvores Binárias/`: mais exercicios de arvore binaria (folhas, similares, expressao matematica).
 - `Trabalho - Matriz Esparsa/`: trabalho em C com matriz esparsa usando lista cruzada.
 
 Nas listas com estrutura dinamica, o padrao geral usado eh:
