@@ -13,6 +13,7 @@ e estruturas de dados dinamicas.
 - `6 - Listas Duplamente Encadeadas/`: implementacao base de lista dupla e exercicios.
 - `7 - Árvores I/`: arvore binaria de busca usando o projeto do professor.
 - `8 - Árvores Binárias/`: mais exercicios de arvore binaria (folhas, similares, expressao matematica).
+- `9 - Árvores AVL/`: arvore AVL com rotacoes, verificacao de balanceamento e transformacao de BST em AVL.
 - `Trabalho - Matriz Esparsa/`: trabalho em C com matriz esparsa usando lista cruzada.
 
 Nas listas com estrutura dinamica, o padrao geral usado eh:
@@ -28,6 +29,7 @@ Nas listas com estrutura dinamica, o padrao geral usado eh:
 - Fila: usa `inicio` e `fim`; quem entra primeiro sai primeiro.
 - Lista: usa `Lista` como ponteiro para o primeiro no, seguindo a ideia da base do professor, mas com `Node`, `data` e `next`.
 - Lista dupla: usa nos com ponteiros para o anterior e para o proximo.
+- Arvore AVL: arvore binaria de busca que mantem o balanceamento com rotacoes LL, RR, LR e RL.
 - Matriz esparsa: armazena apenas valores diferentes de zero em listas cruzadas por linha e coluna.
 
 ## Como compilar
@@ -75,6 +77,17 @@ gcc -Wall -Wextra -I '7 - Árvores I/base' \
   '7 - Árvores I/src/main.c' \
   '7 - Árvores I/base/ArvoreBinaria.c' \
   -o /tmp/lista7
+```
+
+Exemplo para a arvore AVL (Lista 9):
+
+```sh
+gcc -Wall -Wextra -I '9 - Árvores AVL/base' \
+  '9 - Árvores AVL/src/main.c' \
+  '9 - Árvores AVL/base/ArvoreAVL.c' \
+  -o /tmp/lista9
+
+/tmp/lista9
 ```
 
 Exemplo para o trabalho de matriz esparsa:
