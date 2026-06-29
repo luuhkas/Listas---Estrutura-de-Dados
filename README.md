@@ -14,7 +14,9 @@ e estruturas de dados dinamicas.
 - `7 - Árvores I/`: arvore binaria de busca usando o projeto do professor.
 - `8 - Árvores Binárias/`: mais exercicios de arvore binaria (folhas, similares, expressao matematica).
 - `9 - Árvores AVL/`: arvore AVL com rotacoes, verificacao de balanceamento e transformacao de BST em AVL.
+- `10 - Grafos/`: grafos com o projeto do professor (PRIM/AGM, busca de no e nova estrutura por lista de adjacencia).
 - `Trabalho - Matriz Esparsa/`: trabalho em C com matriz esparsa usando lista cruzada.
+- `Trabalho 2 - Árvores/`: trabalho em C com arvore generica de diretorios (representacao filho-irmao + indice Trie).
 
 Nas listas com estrutura dinamica, o padrao geral usado eh:
 
@@ -30,6 +32,7 @@ Nas listas com estrutura dinamica, o padrao geral usado eh:
 - Lista: usa `Lista` como ponteiro para o primeiro no, seguindo a ideia da base do professor, mas com `Node`, `data` e `next`.
 - Lista dupla: usa nos com ponteiros para o anterior e para o proximo.
 - Arvore AVL: arvore binaria de busca que mantem o balanceamento com rotacoes LL, RR, LR e RL.
+- Grafo: vertices ligados por arestas; guardado por lista de adjacencia (matriz de vizinhos no projeto do professor) e, quando ponderado, com peso por aresta.
 - Matriz esparsa: armazena apenas valores diferentes de zero em listas cruzadas por linha e coluna.
 
 ## Como compilar
@@ -90,6 +93,28 @@ gcc -Wall -Wextra -I '9 - Árvores AVL/base' \
 /tmp/lista9
 ```
 
+Exemplo para grafos (Lista 10) - exercicios 5 e 6:
+
+```sh
+gcc -Wall -Wextra -I '10 - Grafos/base' \
+  '10 - Grafos/src/main.c' \
+  '10 - Grafos/base/Grafo.c' \
+  -o /tmp/lista10
+
+/tmp/lista10
+```
+
+E o exercicio 4 da Lista 10 (estrutura nova por lista de adjacencia):
+
+```sh
+gcc -Wall -Wextra -I '10 - Grafos/base' \
+  '10 - Grafos/src/main_q4.c' \
+  '10 - Grafos/base/GrafoLista.c' \
+  -o /tmp/lista10_q4
+
+/tmp/lista10_q4
+```
+
 Exemplo para o trabalho de matriz esparsa:
 
 ```sh
@@ -108,4 +133,15 @@ gcc -Wall -Wextra \
   -o /tmp/testes_matriz_esparsa
 
 /tmp/testes_matriz_esparsa
+```
+
+Exemplo para o trabalho 2 (arvore de diretorios):
+
+```sh
+gcc -Wall -Wextra -std=c11 \
+  'Trabalho 2 - Árvores/src/arvore.c' \
+  'Trabalho 2 - Árvores/src/main.c' \
+  -o /tmp/trabalho_arvores
+
+/tmp/trabalho_arvores
 ```
