@@ -57,6 +57,6 @@ continua sendo o programa em C nos arquivos da pasta `src/`, que continua
 funcionando exatamente como esta no terminal:
 
 ```sh
-gcc -Wall -Wextra src/main.c src/matriz_esparsa.c -o build/trabalho_matriz_esparsa
+gcc -Wall -Wextra src/main.c src/matriz.c -o build/trabalho_matriz_esparsa
 ./build/trabalho_matriz_esparsa
 ```

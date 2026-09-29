@@ -3,6 +3,11 @@
 Exercicios e trabalhos em C desenvolvidos para praticar recursividade, ponteiros
 e estruturas de dados dinamicas.
 
+## Destaques
+
+- `Trabalho - Matriz Esparsa/`: matriz esparsa com lista cruzada, incluindo soma e multiplicacao de matrizes, com 246 testes automatizados (`src/testes.c`) passando.
+- `Trabalho 2 - Árvores/`: arvore generica de diretorios em linha de comando, com representacao filho-irmao e indice Trie para busca por nome e por prefixo.
+
 ## Estrutura
 
 - `1 - Recursividade/`: exercicios de funcoes recursivas.
@@ -120,7 +125,7 @@ Exemplo para o trabalho de matriz esparsa:
 ```sh
 gcc -Wall -Wextra \
   'Trabalho - Matriz Esparsa/src/main.c' \
-  'Trabalho - Matriz Esparsa/src/matriz_esparsa.c' \
+  'Trabalho - Matriz Esparsa/src/matriz.c' \
   -o /tmp/trabalho_matriz_esparsa
 ```
 
@@ -129,7 +134,7 @@ Para executar os testes da matriz esparsa:
 ```sh
 gcc -Wall -Wextra \
   'Trabalho - Matriz Esparsa/src/testes.c' \
-  'Trabalho - Matriz Esparsa/src/matriz_esparsa.c' \
+  'Trabalho - Matriz Esparsa/src/matriz.c' \
   -o /tmp/testes_matriz_esparsa
 
 /tmp/testes_matriz_esparsa
